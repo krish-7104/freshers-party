@@ -1,38 +1,117 @@
-.App {
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.disable {
+  display: none;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.mainContainer {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    90deg,
+    hsla(186, 33%, 94%, 1) 0%,
+    hsla(216, 41%, 79%, 1) 100%
+  );
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-direction: column;
 }
-
-.App-link {
-  color: #61dafb;
+.navSection {
+  height: 10vh;
+  text-align: center;
+  margin: 15px;
+  justify-self: flex-start;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.title {
+  color: black;
+  font-weight: 700;
+  font-size: 30px;
+  margin: 6px;
+}
+.mainFormArea {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+}
+.mainForm {
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+  background-color: whitesmoke !important;
+  width: 100%;
+  z-index: 10;
+  border-radius: 10px;
+  padding: 20px 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.verticleWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+}
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin: 10px 0px;
+}
+.inputWrapper label {
+  color: black;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  align-self: flex-start;
+  width: 100%;
+  margin-bottom: 6px;
+}
+.inputWrapper input {
+  background-color: inherit;
+  border: 1.2px solid black;
+  padding: 10px;
+  width: 100%;
+  font-size: 14px;
+  outline: none;
+  border-radius: 2px;
+}
+.genderSelect {
+  width: 65%;
+  display: flex;
+  margin-top: 8px;
+  justify-content: space-evenly;
+}
+select,
+option {
+  background-color: whitesmoke;
+  padding: 8px;
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+  border-radius: 2px;
+}
+.submitForm {
+  background-color: black;
+  color: whitesmoke;
+  padding: 10px;
+  margin-top: 20px;
+  width: 80%;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+.verticleWrap .inputWrapper:first-child {
+  margin-right: 20px;
 }
