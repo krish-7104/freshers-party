@@ -1,5 +1,8 @@
 body {
-  overflow: hidden;
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+body::-webkit-scrollbar {
+  display: none;
 }
 .headingArea {
   height: 100vh;

@@ -5,6 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const Senior = () => {
   const [disableForm, setDisableForm] = useState(false);
+  const [qrcodeDisplay, setqrcodeDisplay] = useState(false);
+
   const [data, allData] = useState({
     email: "",
     name: "",
@@ -12,6 +14,7 @@ const Senior = () => {
     phone: "",
     tempId: "",
     payment: "",
+    file: "",
   });
   const submitFormHandler = async (e) => {
     e.preventDefault();
@@ -118,7 +121,7 @@ const Senior = () => {
           <p className="subTitle">IOT Junior</p>
         </section>
         <section className={disableForm ? "disable" : "mainFormArea"}>
-          <form className="mainForm" onSubmit={submitFormHandler}>
+          <form className="mainForm">
             <div className="inputWrapper">
               <label htmlFor="fname">Full Name</label>
               <input
@@ -182,11 +185,38 @@ const Senior = () => {
                   <option value="Offline">Offline</option>
                 </select>
               </div>
-              <div className="inputWrapper">
-                <button>Pay Online</button>
+            </div>
+            <div
+              className={data.payment === "Online" ? "paymentSec" : "disable"}
+            >
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=1233"
+                alt=""
+              />
+              <div className="uploadScreenshotArea">
+                <p className="qrCodetext">
+                  Note: After Paying Online, Don't Forget Take A Screenshot Of
+                  Payment Success Page And Upload It. If You Face Any Problem
+                  Contact On Below Given Info.
+                </p>
+                <label htmlFor="uploadFile" className="uploadFIle">
+                  Upload Screenshot
+                </label>
+                <input
+                  type="file"
+                  id="uploadFile"
+                  className="disable"
+                  onChange={inputHandler}
+                  value={data.file}
+                />
               </div>
             </div>
-            <input type="submit" className="submitForm" value="Submit Form" />
+            <input
+              type="submit"
+              className="submitForm"
+              value="Submit Form"
+              onClick={submitFormHandler}
+            />
           </form>
         </section>
         <section
