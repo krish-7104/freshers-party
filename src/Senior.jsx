@@ -3,6 +3,7 @@ import { db } from "./firebase";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import base from "./Api/base";
 const Senior = () => {
   const [disableForm, setDisableForm] = useState(false);
   const [data, allData] = useState({
@@ -10,7 +11,7 @@ const Senior = () => {
     name: "",
     gender: "",
     phone: "",
-    eno: "",
+    enrollment: "",
     payment: "",
   });
   const submitFormHandler = async (e) => {
@@ -20,7 +21,7 @@ const Senior = () => {
       data.email !== "" &&
       data.name !== "" &&
       data.phone !== "" &&
-      data.eno !== "" &&
+      data.enrollment !== "" &&
       data.gender !== "" &&
       data.payment !== ""
     ) {
@@ -36,67 +37,38 @@ const Senior = () => {
         name: data.name,
         gender: data.gender,
         phone: data.phone,
-        eno: data.eno,
+        enrollment: data.enrollment,
         payment: data.payment,
         qrcode: `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
-          data.eno * 2 + 9
+          data.enrollment * 2 + 9
         }`,
         created: Timestamp.now(),
       });
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      var requestOptions = {
-        method: "post",
-        headers: myHeaders,
-        redirect: "follow",
-        body: JSON.stringify([
-          [
-            data.name,
-            data.email,
-            data.phone,
-            data.eno,
-            data.payment,
-            data.gender,
-            `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
-              data.eno * 2 + 9
-            }`,
-            new Date(),
-          ],
-        ]),
-      };
-      try {
-        const resp = await fetch(
-          "https://v1.nocodeapi.com/krish7104/google_sheets/YVExCPtqWpAQiYdq?tabId=Seniors",
-          requestOptions
-        );
-        if (resp.status === 200) {
-          toast.success("You Are Registered", {
-            position: "bottom-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-        }
-        setDisableForm(true);
-      } catch (error) {
-        toast.error("Some Error Occured", {
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-      }
     } catch (err) {
       alert(err);
     }
+    let { name, email, phone, gender, enrollment, payment } = data;
+    let qr = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
+      enrollment * 2 + 9
+    }`;
+    base("seniors").create(
+      {
+        name,
+        email,
+        phone,
+        gender,
+        enrollment,
+        payment,
+        qr,
+      },
+      function (err, record) {
+        if (err) {
+          alert(err);
+        } else {
+          alert(record.getId());
+        }
+      }
+    );
   };
   const inputHandler = (e) => {
     const name = e.target.name;
@@ -106,6 +78,13 @@ const Senior = () => {
   return (
     <>
       <section className="mainContainer">
+        <div className="page-bg"></div>
+        <div className="animation-wrapper">
+          <div className="particle particle-1"></div>
+          <div className="particle particle-2"></div>
+          <div className="particle particle-3"></div>
+          <div className="particle particle-4"></div>
+        </div>
         <section className="navSection">
           <p className="title">Freshers Party Form 🎉</p>
           <p className="subTitle">IOT Senior</p>
@@ -136,14 +115,14 @@ const Senior = () => {
             </div>
             <div className="verticleWrap">
               <div className="inputWrapper">
-                <label htmlFor="eno">Enrollment No</label>
+                <label htmlFor="enrollment">Enrollment No</label>
                 <input
                   onChange={inputHandler}
                   type="text"
-                  id="eno"
+                  id="enrollment"
                   autoComplete="off"
-                  name="eno"
-                  value={data.eno}
+                  name="enrollment"
+                  value={data.enrollment}
                 />
               </div>
               <div className="inputWrapper">
@@ -174,6 +153,31 @@ const Senior = () => {
                   <option value="Online">Online</option>
                   <option value="Offline">Offline</option>
                 </select>
+              </div>
+            </div>
+            <div
+              className={data.payment === "Online" ? "paymentSec" : "disable"}
+            >
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=1233"
+                alt=""
+              />
+              <div className="uploadScreenshotArea">
+                <p className="qrCodetext">
+                  <b>Note: </b>After Paying Online, Don't Forget Take A
+                  Screenshot Of Payment Success Page And Upload It. If You Face
+                  Any Problem Contact On Below Given Phone Numbers.
+                </p>
+                <label htmlFor="uploadFile" className="uploadFIle">
+                  Upload Screenshot
+                </label>
+                <input
+                  type="file"
+                  id="uploadFile"
+                  className="disable"
+                  onChange={inputHandler}
+                  value={data.file}
+                />
               </div>
             </div>
             <input type="submit" className="submitForm" value="Submit Form" />

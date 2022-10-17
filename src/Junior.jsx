@@ -3,10 +3,9 @@ import { db } from "./firebase";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const Senior = () => {
+import base from "./Api/base";
+const Junior = () => {
   const [disableForm, setDisableForm] = useState(false);
-  const [qrcodeDisplay, setqrcodeDisplay] = useState(false);
-
   const [data, allData] = useState({
     email: "",
     name: "",
@@ -46,60 +45,31 @@ const Senior = () => {
         }`,
         created: Timestamp.now(),
       });
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      var requestOptions = {
-        method: "post",
-        headers: myHeaders,
-        redirect: "follow",
-        body: JSON.stringify([
-          [
-            data.name,
-            data.email,
-            data.phone,
-            data.tempId,
-            data.payment,
-            data.gender,
-            `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
-              data.phone * 2 + 9
-            }`,
-            new Date(),
-          ],
-        ]),
-      };
-      try {
-        const resp = await fetch(
-          "https://v1.nocodeapi.com/krish7104/google_sheets/YVExCPtqWpAQiYdq?tabId=Juniors",
-          requestOptions
-        );
-        if (resp.status === 200) {
-          toast.success("You Are Registered", {
-            position: "bottom-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-        }
-        setDisableForm(true);
-      } catch (error) {
-        toast.error("Some Error Occured", {
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-      }
     } catch (err) {
-      alert(err);
+      console.log(err);
     }
+    let { name, email, phone, gender, tempId, payment } = data;
+    let qr = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
+      phone * 2 + 9
+    }`;
+    base("juniors").create(
+      {
+        name,
+        email,
+        phone,
+        gender,
+        tempId,
+        payment,
+        qr,
+      },
+      function (err, record) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(record.getId());
+        }
+      }
+    );
   };
   const inputHandler = (e) => {
     const name = e.target.name;
@@ -195,9 +165,9 @@ const Senior = () => {
               />
               <div className="uploadScreenshotArea">
                 <p className="qrCodetext">
-                  Note: After Paying Online, Don't Forget Take A Screenshot Of
-                  Payment Success Page And Upload It. If You Face Any Problem
-                  Contact On Below Given Info.
+                  <b>Note: </b>After Paying Online, Don't Forget Take A
+                  Screenshot Of Payment Success Page And Upload It. If You Face
+                  Any Problem Contact On Below Given Phone Numbers.
                 </p>
                 <label htmlFor="uploadFile" className="uploadFIle">
                   Upload Screenshot
@@ -235,4 +205,4 @@ const Senior = () => {
   );
 };
 
-export default Senior;
+export default Junior;
