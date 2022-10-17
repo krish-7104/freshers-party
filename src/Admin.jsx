@@ -66,11 +66,21 @@ const Admin = () => {
                 <TableCell>
                   <b>Phone</b>
                 </TableCell>
-                <TableCell>
-                  <b>Temp Id</b>
-                </TableCell>
+                {typeData === "registered_juniors" ? (
+                  <TableCell>
+                    <b>Temp Id</b>
+                  </TableCell>
+                ) : (
+                  <TableCell>
+                    <b>Enrollment</b>
+                  </TableCell>
+                )}
+
                 <TableCell>
                   <b>Payment</b>
+                </TableCell>
+                <TableCell>
+                  <b>Verify Pay</b>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -85,8 +95,17 @@ const Admin = () => {
                   <TableCell>{row.email}</TableCell>
                   <TableCell>{row.gender}</TableCell>
                   <TableCell>{row.phone}</TableCell>
-                  <TableCell>{row.tempId}</TableCell>
+                  {typeData === "registered_juniors" ? (
+                    <TableCell>{row.tempId}</TableCell>
+                  ) : (
+                    <TableCell>{row.enrollment}</TableCell>
+                  )}
                   <TableCell>{row.payment}</TableCell>
+                  <TableCell>
+                    <a href={row.screenshot} target="_blank" rel="noreferrer">
+                      Link
+                    </a>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

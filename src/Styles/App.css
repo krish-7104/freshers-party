@@ -150,7 +150,7 @@ option {
   padding: 10px;
   text-align: center;
   letter-spacing: 1.2px;
-  line-height: 25px;
+  line-height: 28px;
 }
 .paymentSec {
   display: flex;
@@ -207,4 +207,24 @@ option {
   font-size: 12px;
   font-weight: 600;
   width: 100%;
+}
+.upload {
+  font-size: 12px;
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 600;
+}
+.contactDetails p {
+  color: black;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-bottom: 5px;
+  margin-top: 15px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.contactDetails a {
+  text-decoration: underline;
+  color: black;
+  cursor: pointer;
 }

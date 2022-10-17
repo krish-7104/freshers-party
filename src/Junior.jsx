@@ -1,11 +1,16 @@
-import React, { useState } from "react";
-import { db } from "./firebase";
+import React, { useState, useEffect } from "react";
+import { db, storage } from "./firebase";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import base from "./Api/base";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 const Junior = () => {
   const [disableForm, setDisableForm] = useState(false);
+  const [file, setFile] = useState();
+  const [screenshot, setpaymentLink] = useState();
+  const [uploadStatus, setUploadStatus] = useState("");
+
   const [data, allData] = useState({
     email: "",
     name: "",
@@ -15,6 +20,30 @@ const Junior = () => {
     payment: "",
     file: "",
   });
+  useEffect(() => {
+    const uploadFile = () => {
+      const storageRef = ref(storage, `Junior Payment/${data.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          progress !== "" && setUploadStatus(progress.toString().slice(0, 4));
+        },
+        (error) => {
+          alert(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setpaymentLink(downloadURL);
+          });
+        }
+      );
+    };
+    file && uploadFile();
+  }, [data.name, file]);
+
   const submitFormHandler = async (e) => {
     e.preventDefault();
 
@@ -43,11 +72,10 @@ const Junior = () => {
         qrcode: `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
           data.phone * 2 + 9
         }`,
+        screenshot,
         created: Timestamp.now(),
       });
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
     let { name, email, phone, gender, tempId, payment } = data;
     let qr = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
       phone * 2 + 9
@@ -61,12 +89,32 @@ const Junior = () => {
         tempId,
         payment,
         qr,
+        screenshot,
       },
       function (err, record) {
         if (err) {
-          console.log(err);
+          toast.error("Something Went Wrong", {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
         } else {
-          console.log(record.getId());
+          setDisableForm(true);
+          toast.success("Registered Successfully", {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
         }
       }
     );
@@ -176,9 +224,11 @@ const Junior = () => {
                   type="file"
                   id="uploadFile"
                   className="disable"
-                  onChange={inputHandler}
-                  value={data.file}
+                  onChange={(e) => setFile(e.target.files[0])}
                 />
+                <small className={uploadStatus !== "" ? "upload" : "disable"}>
+                  Upload Status: {uploadStatus + "%"}
+                </small>
               </div>
             </div>
             <input
@@ -187,6 +237,12 @@ const Junior = () => {
               value="Submit Form"
               onClick={submitFormHandler}
             />
+            <div className="contactDetails">
+              <p>
+                For Form Realted Issue Contact{" "}
+                <a href="https://wa.me/+918160704091">Krish Jotaniya</a>
+              </p>
+            </div>
           </form>
         </section>
         <section
@@ -195,10 +251,11 @@ const Junior = () => {
           <p className="afterFormTitle">Lets Go Yeah 🎉</p>
           <p className="afterFormSub">You Are Successfully Registered</p>
           <p className="afterFromDesc">
-            You will get the Invitation Card From Our Team With Unique Qr Code
-            On Your Respective Email Address Asap.
+            Now Get Ready For Making Some Unforgettable And Mesmerizing Moments.
+            Feshers 2K22 By GCET CSE-IOT
           </p>
         </section>
+
         <ToastContainer />
       </section>
     </>
