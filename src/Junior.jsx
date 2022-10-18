@@ -5,12 +5,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import base from "./Api/base";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { Dots } from "loading-animations-react";
 const Junior = () => {
   const [disableForm, setDisableForm] = useState(false);
   const [file, setFile] = useState();
-  const [screenshot, setpaymentLink] = useState();
+  const [screenshot, setpaymentLink] = useState("");
   const [uploadStatus, setUploadStatus] = useState("");
-
+  const [uploading, setUploading] = useState(false);
   const [data, allData] = useState({
     email: "",
     name: "",
@@ -38,6 +39,7 @@ const Junior = () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setpaymentLink(downloadURL);
           });
+          setUploadStatus("");
         }
       );
     };
@@ -46,7 +48,7 @@ const Junior = () => {
 
   const submitFormHandler = async (e) => {
     e.preventDefault();
-
+    setUploading(true);
     if (
       data.email !== "" &&
       data.name !== "" &&
@@ -104,6 +106,7 @@ const Junior = () => {
             theme: "dark",
           });
         } else {
+          setUploading(false);
           setDisableForm(true);
           toast.success("Registered Successfully", {
             position: "bottom-right",
@@ -213,30 +216,42 @@ const Junior = () => {
               />
               <div className="uploadScreenshotArea">
                 <p className="qrCodetext">
-                  <b>Note: </b>After Paying Online, Don't Forget Take A
-                  Screenshot Of Payment Success Page And Upload It. If You Face
-                  Any Problem Contact On Below Given Phone Numbers.
+                  <b>Note: </b>After paying online, don't forget to take a
+                  screenshot of the payment success page and upload it if you
+                  face any problems contact on below given phone numbers.
                 </p>
-                <label htmlFor="uploadFile" className="uploadFIle">
-                  Upload Screenshot
-                </label>
+                {screenshot !== "" ? (
+                  <label className="uploadFIle success" disable>
+                    Screenshot Uploaded
+                  </label>
+                ) : (
+                  <label htmlFor="uploadFile" className="uploadFIle">
+                    Upload Screenshot
+                  </label>
+                )}
+
                 <input
                   type="file"
                   id="uploadFile"
                   className="disable"
                   onChange={(e) => setFile(e.target.files[0])}
                 />
-                <small className={uploadStatus !== "" ? "upload" : "disable"}>
-                  Upload Status: {uploadStatus + "%"}
-                </small>
               </div>
             </div>
-            <input
-              type="submit"
-              className="submitForm"
-              value="Submit Form"
-              onClick={submitFormHandler}
-            />
+            {!uploading ? (
+              <input
+                type="submit"
+                className="submitForm"
+                value="Submit Form"
+                onClick={submitFormHandler}
+              />
+            ) : (
+              <Dots
+                className="uploadData"
+                dotColors={["red", "black", "blue", "orange", "red"]}
+                text="Uploading Data"
+              />
+            )}
             <div className="contactDetails">
               <p>
                 For Form Realted Issue Contact{" "}

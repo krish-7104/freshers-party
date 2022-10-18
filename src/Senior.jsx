@@ -4,11 +4,15 @@ import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import base from "./Api/base";
+import { Dots } from "loading-animations-react";
+
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-const Junior = () => {
+const Senior = () => {
   const [disableForm, setDisableForm] = useState(false);
   const [file, setFile] = useState();
   const [screenshot, setpaymentLink] = useState();
+  const [uploading, setUploading] = useState(false);
+
   const [uploadStatus, setUploadStatus] = useState("");
   const [data, allData] = useState({
     email: "",
@@ -37,6 +41,7 @@ const Junior = () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setpaymentLink(downloadURL);
           });
+          setUploadStatus("");
         }
       );
     };
@@ -45,6 +50,7 @@ const Junior = () => {
 
   const submitFormHandler = async (e) => {
     e.preventDefault();
+    setUploading(true);
 
     if (
       data.email !== "" &&
@@ -104,6 +110,7 @@ const Junior = () => {
           });
         } else {
           setDisableForm(true);
+          setUploading(false);
           toast.success("Registered Successfully", {
             position: "bottom-right",
             autoClose: 4000,
@@ -212,9 +219,9 @@ const Junior = () => {
               />
               <div className="uploadScreenshotArea">
                 <p className="qrCodetext">
-                  <b>Note: </b>After Paying Online, Don't Forget Take A
-                  Screenshot Of Payment Success Page And Upload It. If You Face
-                  Any Problem Contact On Below Given Phone Numbers.
+                  <b>Note: </b>After paying online, don't forget to take a
+                  screenshot of the payment success page and upload it if you
+                  face any problems contact on below given phone numbers.
                 </p>
                 <label htmlFor="uploadFile" className="uploadFIle">
                   Upload Screenshot
@@ -225,17 +232,22 @@ const Junior = () => {
                   className="disable"
                   onChange={(e) => setFile(e.target.files[0])}
                 />
-                <small className={uploadStatus !== "" ? "upload" : "disable"}>
-                  Upload Status: {uploadStatus + "%"}
-                </small>
               </div>
             </div>
-            <input
-              type="submit"
-              className="submitForm"
-              value="Submit Form"
-              onClick={submitFormHandler}
-            />
+            {!uploading ? (
+              <input
+                type="submit"
+                className="submitForm"
+                value="Submit Form"
+                onClick={submitFormHandler}
+              />
+            ) : (
+              <Dots
+                className="uploadData"
+                dotColors={["red", "black", "blue", "orange", "red"]}
+                text="Uploading Data"
+              />
+            )}
             <div className="contactDetails">
               <p>
                 For Form Realted Issue Contact{" "}
@@ -260,4 +272,4 @@ const Junior = () => {
   );
 };
 
-export default Junior;
+export default Senior;

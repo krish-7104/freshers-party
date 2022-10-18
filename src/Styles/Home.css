@@ -1,5 +1,6 @@
 body {
   overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-y: hidden;
 }
 body::-webkit-scrollbar {
   display: none;
@@ -49,12 +50,15 @@ body::-webkit-scrollbar {
     font-size: 50px;
   }
   .getReadyText {
-    font-size: 14px;
+    font-size: 13px;
     margin-bottom: 15px;
   }
   .seniorText {
-    font-size: 14px;
+    font-size: 13px;
     margin-top: 15px;
+  }
+  .headingArea {
+    padding: 0px 10px;
   }
   @keyframes fade {
     10% {

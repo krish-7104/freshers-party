@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Styles/Home.css";
 import "./Styles/Animation.css";
 import "animate.css";
+import Fade from "react-reveal/Fade";
 import ConfettiExplosion from "react-confetti-explosion";
 const Home = () => {
   const [date, setDate] = useState("-");
@@ -18,8 +19,8 @@ const Home = () => {
 
   const bigExplodeProps = {
     force: 0.4,
-    duration: 3000,
-    particleCount: 60,
+    duration: 4000,
+    particleCount: 80,
     height: 1200,
     width: 1200,
   };
@@ -37,11 +38,14 @@ const Home = () => {
         <p className="getReadyText">IOT Seniors Presents</p>
         <p className="homePageTitle animate__animated animate__fadeIn">
           {/* COMING SOON */}
-          Reverie'22
+          <Fade bottom cascade>
+            Reverie'22
+          </Fade>
         </p>
         <p className="seniorText animate__animated animate__fadeIn">
           {date} Days To Go
         </p>
+        {date !== "-" && <ConfettiExplosion {...bigExplodeProps} />}
       </div>
     </>
   );

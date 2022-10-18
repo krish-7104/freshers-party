@@ -206,6 +206,7 @@ option {
   line-height: 20px;
   font-size: 12px;
   font-weight: 600;
+  text-transform: none;
   width: 100%;
 }
 .upload {
@@ -227,4 +228,18 @@ option {
   text-decoration: underline;
   color: black;
   cursor: pointer;
+}
+.uploadingText {
+  padding: 8px 14px;
+  border-radius: 4px;
+  background-color: black;
+  color: whitesmoke;
+  font-weight: 600;
+  font-size: 12px;
+  margin-top: 10px;
+  letter-spacing: 1px;
+}
+.success {
+  color: rgb(0, 136, 0);
+  cursor: default;
 }
