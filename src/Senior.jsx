@@ -50,7 +50,6 @@ const Senior = () => {
 
   const submitFormHandler = async (e) => {
     e.preventDefault();
-    setUploading(true);
 
     if (
       data.email !== "" &&
@@ -60,6 +59,7 @@ const Senior = () => {
       data.gender !== "" &&
       data.payment !== ""
     ) {
+      setUploading(true);
       AddDataToServer();
     } else {
       alert("Fill All Details");
@@ -141,7 +141,7 @@ const Senior = () => {
           <div className="particle particle-4"></div>
         </div>
         <section className="navSection">
-          <p className="title">Freshers Party Form 🎉</p>
+          <p className="title">Reverie'22 Form 🎉</p>
           <p className="subTitle">IOT Senior</p>
         </section>
         <section className={disableForm ? "disable" : "mainFormArea"}>
@@ -223,9 +223,19 @@ const Senior = () => {
                   screenshot of the payment success page and upload it if you
                   face any problems contact on below given phone numbers.
                 </p>
-                <label htmlFor="uploadFile" className="uploadFIle">
-                  Upload Screenshot
-                </label>
+                {screenshot !== "" ? (
+                  <label className="uploadFIle success" disable>
+                    Screenshot Uploaded
+                  </label>
+                ) : uploadStatus === "" ? (
+                  <label htmlFor="uploadFile" className="uploadFIle">
+                    Upload Screenshot
+                  </label>
+                ) : (
+                  <label htmlFor="uploadFile" className="uploadFIle">
+                    Uploading Wait {uploadStatus}%
+                  </label>
+                )}
                 <input
                   type="file"
                   id="uploadFile"

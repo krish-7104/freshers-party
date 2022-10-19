@@ -5,6 +5,10 @@
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
 }
+body {
+  overflow-x: visible; /* Hide horizontal scrollbar */
+  overflow-y: visible;
+}
 .disable {
   display: none;
 }
@@ -242,4 +246,29 @@ option {
 .success {
   color: rgb(0, 136, 0);
   cursor: default;
+}
+@media only screen and (max-width: 600px) {
+  .title {
+    font-size: 28px;
+  }
+  .mainFormArea {
+    width: 90%;
+  }
+  .verticleWrap {
+    flex-direction: column;
+    width: 100%;
+  }
+  .verticleWrap .inputWrapper:first-child {
+    margin-right: 0;
+  }
+  .paymentSec {
+    flex-direction: column;
+    width: 95%;
+  }
+  .qrCodetext {
+    margin-top: 15px;
+  }
+  .submitForm {
+    margin-top: 10px;
+  }
 }

@@ -18,8 +18,8 @@ const Home = () => {
   }, 1000);
 
   const bigExplodeProps = {
-    force: 0.4,
-    duration: 4000,
+    force: 0.6,
+    duration: 5000,
     particleCount: 80,
     height: 1200,
     width: 1200,
@@ -33,15 +33,15 @@ const Home = () => {
         <div className="particle particle-3"></div>
         <div className="particle particle-4"></div>
       </div>
-      <div className="headingArea">
+      <div className="confetti">
         {date !== "-" && <ConfettiExplosion {...bigExplodeProps} />}
-        <p className="getReadyText">IOT Seniors Presents</p>
-        <p className="homePageTitle animate__animated animate__fadeIn">
-          {/* COMING SOON */}
-          <Fade bottom cascade>
-            Reverie'22
-          </Fade>
-        </p>
+      </div>
+      <div className="headingArea">
+        <p className="getReadyText">CSE(IOT) Presents</p>
+        {/* COMING SOON */}
+        <Fade bottom cascade>
+          <p className="homePageTitle">Reverie'22</p>
+        </Fade>
         <p className="seniorText animate__animated animate__fadeIn">
           {date} Days To Go
         </p>
