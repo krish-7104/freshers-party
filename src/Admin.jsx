@@ -75,13 +75,16 @@ const Admin = () => {
                     <b>Enrollment</b>
                   </TableCell>
                 )}
-
-                <TableCell>
-                  <b>Payment</b>
-                </TableCell>
                 <TableCell>
                   <b>Verify Pay</b>
                 </TableCell>
+                {typeData === "registered_juniors" ? (
+                  <TableCell>
+                    <b>Transport</b>
+                  </TableCell>
+                ) : (
+                  ""
+                )}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -100,11 +103,62 @@ const Admin = () => {
                   ) : (
                     <TableCell>{row.enrollment}</TableCell>
                   )}
-                  <TableCell>{row.payment}</TableCell>
                   <TableCell>
-                    <a href={row.screenshot} target="_blank" rel="noreferrer">
-                      Link
-                    </a>
+                    {row.screenshot !== "" ? (
+                      <a href={row.screenshot} target="_blank" rel="noreferrer">
+                        Online
+                      </a>
+                    ) : (
+                      "Offline"
+                    )}
+                  </TableCell>
+                  {typeData === "registered_juniors" ? (
+                    <TableCell>{row.transport}</TableCell>
+                  ) : (
+                    ""
+                  )}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+      <div className="tableAreaMobile">
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: window.innerWidth }} size="large">
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <b>Sr. No</b>
+                </TableCell>
+                <TableCell>
+                  <b>Name</b>
+                </TableCell>
+                <TableCell>
+                  <b>Phone</b>
+                </TableCell>
+                <TableCell>
+                  <b>Verify Pay</b>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data.map((row, index) => (
+                <TableRow
+                  key={row.phone}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.phone}</TableCell>
+                  <TableCell>
+                    {row.screenshot !== "" ? (
+                      <a href={row.screenshot} target="_blank" rel="noreferrer">
+                        Online
+                      </a>
+                    ) : (
+                      "Offline"
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

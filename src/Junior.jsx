@@ -20,6 +20,7 @@ const Junior = () => {
     tempId: "",
     payment: "",
     file: "",
+    transport: "",
   });
   useEffect(() => {
     const uploadFile = () => {
@@ -75,10 +76,11 @@ const Junior = () => {
           data.phone * 2 + 9
         }`,
         screenshot,
+        transport: data.transport,
         created: Timestamp.now(),
       });
     } catch (err) {}
-    let { name, email, phone, gender, tempId, payment } = data;
+    let { name, email, phone, gender, tempId, payment, transport } = data;
     let qr = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
       phone * 2 + 9
     }`;
@@ -90,6 +92,7 @@ const Junior = () => {
         gender,
         tempId,
         payment,
+        transport,
         qr,
         screenshot,
       },
@@ -143,16 +146,27 @@ const Junior = () => {
         </section>
         <section className={disableForm ? "disable" : "mainFormArea"}>
           <form className="mainForm">
-            <div className="inputWrapper">
-              <label htmlFor="fname">Full Name</label>
-              <input
-                onChange={inputHandler}
-                type="text"
-                id="fname"
-                autoComplete="off"
-                name="name"
-                value={data.name}
-              />
+            <div className="verticleWrap">
+              <div className="inputWrapper">
+                <label htmlFor="fname">Full Name</label>
+                <input
+                  onChange={inputHandler}
+                  type="text"
+                  id="fname"
+                  name="name"
+                  value={data.name}
+                />
+              </div>
+              <div className="inputWrapper">
+                <label htmlFor="tempId">Temporary Id</label>
+                <input
+                  onChange={inputHandler}
+                  type="text"
+                  id="tempId"
+                  name="tempId"
+                  value={data.tempId}
+                />
+              </div>
             </div>
             <div className="inputWrapper">
               <label htmlFor="email">Email Address</label>
@@ -160,42 +174,37 @@ const Junior = () => {
                 onChange={inputHandler}
                 type="email"
                 id="email"
-                autoComplete="off"
                 name="email"
                 value={data.email}
               />
             </div>
             <div className="verticleWrap">
               <div className="inputWrapper">
-                <label htmlFor="tempId">Temporary Id</label>
-                <input
-                  onChange={inputHandler}
-                  type="text"
-                  id="tempId"
-                  autoComplete="off"
-                  name="tempId"
-                  value={data.tempId}
-                />
-              </div>
-              <div className="inputWrapper">
                 <label htmlFor="pno">Phone Number</label>
                 <input
                   onChange={inputHandler}
                   type="number"
                   id="pno"
-                  autoComplete="off"
                   name="phone"
                   value={data.phone}
                 />
               </div>
-            </div>
-            <div className="verticleWrap">
               <div className="inputWrapper">
                 <label htmlFor="gender">Gender</label>
                 <select name="gender" id="gender" onChange={inputHandler}>
                   <option value="">-- Select --</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
+                </select>
+              </div>
+            </div>
+            <div className="verticleWrap">
+              <div className="inputWrapper">
+                <label htmlFor="transport">Need Transport?</label>
+                <select name="transport" id="transport" onChange={inputHandler}>
+                  <option value="">-- Select --</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
                 </select>
               </div>
               <div className="inputWrapper">
@@ -211,14 +220,14 @@ const Junior = () => {
               className={data.payment === "Online" ? "paymentSec" : "disable"}
             >
               <img
-                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=1233"
+                src="https://firebasestorage.googleapis.com/v0/b/freshers-krish.appspot.com/o/Qr%20Code%2Fjunior.jpg?alt=media&token=ca90e67c-e40e-481d-917f-c30c99e2577a"
                 alt=""
               />
               <div className="uploadScreenshotArea">
                 <p className="qrCodetext">
                   <b>Note: </b>After paying online, don't forget to take a
                   screenshot of the payment success page and upload it if you
-                  face any problems contact on below given phone numbers.
+                  face any problems contact on below given.
                 </p>
                 {screenshot !== "" ? (
                   <label className="uploadFIle success" disable>
@@ -233,7 +242,6 @@ const Junior = () => {
                     Uploading Wait {uploadStatus}%
                   </label>
                 )}
-
                 <input
                   type="file"
                   id="uploadFile"

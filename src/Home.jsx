@@ -33,14 +33,19 @@ const Home = () => {
         <div className="particle particle-3"></div>
         <div className="particle particle-4"></div>
       </div>
-      <div className="confetti">
-        {date !== "-" && <ConfettiExplosion {...bigExplodeProps} />}
-      </div>
       <div className="headingArea">
+        <div className="confetti">
+          {date !== "-" && <ConfettiExplosion {...bigExplodeProps} />}
+        </div>
         <p className="getReadyText">CSE(IOT) Presents</p>
         {/* COMING SOON */}
         <Fade bottom cascade>
           <p className="homePageTitle">Reverie'22</p>
+          <p className="homePageTitleMobile">
+            Reverie
+            <br />
+            2022
+          </p>
         </Fade>
         <p className="seniorText animate__animated animate__fadeIn">
           {date} Days To Go

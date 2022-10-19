@@ -32,3 +32,29 @@
 .tableArea {
   margin: 30px;
 }
+.tableAreaMobile {
+  display: none;
+}
+@media only screen and (max-width: 900px) {
+  .checkPass {
+    width: 100%;
+    flex-direction: column;
+  }
+  .tableAreaMobile {
+    display: flex;
+  }
+  .tableArea {
+    display: none;
+  }
+  .password {
+    width: 80%;
+  }
+  #typeOfData {
+    width: 80%;
+    margin-top: 8px;
+  }
+  .checkPassBtn {
+    width: 80%;
+    margin-top: 8px;
+  }
+}

@@ -5,14 +5,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import base from "./Api/base";
 import { Dots } from "loading-animations-react";
-
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+
 const Senior = () => {
   const [disableForm, setDisableForm] = useState(false);
   const [file, setFile] = useState();
-  const [screenshot, setpaymentLink] = useState();
+  const [screenshot, setpaymentLink] = useState("");
   const [uploading, setUploading] = useState(false);
-
   const [uploadStatus, setUploadStatus] = useState("");
   const [data, allData] = useState({
     email: "",
@@ -214,14 +213,14 @@ const Senior = () => {
               className={data.payment === "Online" ? "paymentSec" : "disable"}
             >
               <img
-                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=1233"
+                src="https://firebasestorage.googleapis.com/v0/b/freshers-krish.appspot.com/o/Qr%20Code%2Fsenior.jpg?alt=media&token=7f73a94b-a1ef-413e-83f8-4838a498c4b4"
                 alt=""
               />
               <div className="uploadScreenshotArea">
                 <p className="qrCodetext">
                   <b>Note: </b>After paying online, don't forget to take a
                   screenshot of the payment success page and upload it if you
-                  face any problems contact on below given phone numbers.
+                  face any problems contact on below given.
                 </p>
                 {screenshot !== "" ? (
                   <label className="uploadFIle success" disable>

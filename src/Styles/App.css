@@ -5,14 +5,12 @@
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
 }
-body {
-  overflow-x: visible; /* Hide horizontal scrollbar */
-  overflow-y: visible;
-}
 .disable {
   display: none;
 }
 .mainContainer {
+  /* overflow-x: visible;
+  overflow-y: visible; */
   width: 100vw;
   min-height: 100vh;
   display: flex;
@@ -247,7 +245,7 @@ option {
   color: rgb(0, 136, 0);
   cursor: default;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .title {
     font-size: 28px;
   }
@@ -270,5 +268,12 @@ option {
   }
   .submitForm {
     margin-top: 10px;
+  }
+  .afterFormSubmitContainer {
+    width: 90%;
+    text-align: center;
+  }
+  .afterFromDesc {
+    width: 100%;
   }
 }

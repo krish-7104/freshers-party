@@ -1,11 +1,9 @@
-body {
-  overflow-x: hidden; /* Hide horizontal scrollbar */
-  overflow-y: hidden;
-}
 body::-webkit-scrollbar {
   display: none;
 }
 .headingArea {
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-y: hidden;
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -48,12 +46,27 @@ body::-webkit-scrollbar {
   justify-content: center;
   align-items: center;
 }
-@media only screen and (max-width: 600px) {
+.homePageTitleMobile {
+  display: none;
+}
+@media only screen and (max-width: 700px) {
   .headingArea {
     margin-top: -30px;
   }
   .homePageTitle {
-    font-size: 45px;
+    display: none;
+  }
+  .homePageTitleMobile {
+    display: block;
+    text-align: center;
+    font-size: 55px;
+    user-select: none;
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+    text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.426);
+    z-index: 120;
   }
   .getReadyText {
     font-size: 14px;
