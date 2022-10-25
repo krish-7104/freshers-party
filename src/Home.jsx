@@ -7,7 +7,7 @@ import ConfettiExplosion from "react-confetti-explosion";
 const Home = () => {
   const [date, setDate] = useState("-");
   function updateTimer() {
-    let future = Date.parse("November 19, 2022 03:00:00");
+    let future = Date.parse("November 19, 2022 00:00:00");
     let now = new Date();
     let diff = future - now;
     let days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -18,11 +18,11 @@ const Home = () => {
   }, 1000);
 
   const bigExplodeProps = {
-    force: 0.6,
+    force: 0.8,
     duration: 5000,
-    particleCount: 80,
+    particleCount: 150,
     height: 1200,
-    width: 1200,
+    width: 1400,
   };
   return (
     <>
@@ -34,23 +34,27 @@ const Home = () => {
         <div className="particle particle-4"></div>
       </div>
       <div className="headingArea">
-        <div className="confetti">
-          {date !== "-" && <ConfettiExplosion {...bigExplodeProps} />}
-        </div>
-        <p className="getReadyText">CSE(IOT) Presents</p>
-        {/* COMING SOON */}
-        <Fade bottom cascade>
-          <p className="homePageTitle">Reverie'22</p>
-          <p className="homePageTitleMobile">
-            Reverie
-            <br />
-            2022
-          </p>
-        </Fade>
-        <p className="seniorText animate__animated animate__fadeIn">
-          {date} Days To Go
-        </p>
-        {date !== "-" && <ConfettiExplosion {...bigExplodeProps} />}
+        {date === "-" && <p className="loading">getting ready..</p>}
+        {date !== "-" && (
+          <>
+            <div className="confetti">
+              <ConfettiExplosion {...bigExplodeProps} />
+            </div>
+            <p className="getReadyText">CSE(IOT) Presents</p>
+            <Fade bottom cascade>
+              <p className="homePageTitle">Reverie'22</p>
+              <p className="homePageTitleMobile">
+                Reverie
+                <br />
+                2022
+              </p>
+            </Fade>
+            <p className="seniorText animate__animated animate__fadeIn">
+              {date + 1} Days To Go
+            </p>
+            <ConfettiExplosion {...bigExplodeProps} />
+          </>
+        )}
       </div>
     </>
   );

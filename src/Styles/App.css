@@ -26,10 +26,11 @@
 .title {
   color: whitesmoke;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 4px;
   font-size: 30px;
-  letter-spacing: 1.4px;
   margin: 6px;
-  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.426);
+  text-shadow: 0px 0px 8px rgba(255, 255, 255, 0.426);
 }
 .mainFormArea {
   width: 50%;
@@ -153,6 +154,7 @@ option {
   text-align: center;
   letter-spacing: 1.2px;
   line-height: 28px;
+  font-weight: 500;
 }
 .paymentSec {
   display: flex;
@@ -245,7 +247,7 @@ option {
   color: rgb(0, 136, 0);
   cursor: default;
 }
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 900px) {
   .title {
     font-size: 28px;
   }

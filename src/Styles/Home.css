@@ -28,8 +28,8 @@ body::-webkit-scrollbar {
   color: white;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 10px;
-  text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.426);
+  letter-spacing: 12px;
+  text-shadow: 0px 0px 15px rgba(255, 255, 255, 0.426);
   z-index: 120;
 }
 .seniorText {
@@ -49,7 +49,14 @@ body::-webkit-scrollbar {
 .homePageTitleMobile {
   display: none;
 }
-@media only screen and (max-width: 700px) {
+.loading {
+  color: white;
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  opacity: 0.7;
+}
+@media only screen and (max-width: 900px) {
   .headingArea {
     margin-top: -30px;
   }

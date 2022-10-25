@@ -24,6 +24,10 @@ const Admin = () => {
       alert("Bete Password Wrong Hai!");
     }
   };
+  const setStudentType = (e) => {
+    setData([]);
+    setType(e.target.value);
+  };
   return (
     <div className="mainAdmin">
       <div className="checkPass">
@@ -34,11 +38,7 @@ const Admin = () => {
           placeholder="Enter Password"
           onChange={(e) => setPass(e.target.value)}
         />
-        <select
-          name="typeOfData"
-          id="typeOfData"
-          onChange={(e) => setType(e.target.value)}
-        >
+        <select name="typeOfData" id="typeOfData" onChange={setStudentType}>
           <option value="registered_juniors">Junior</option>
           <option value="registered_seniors">Senior</option>
         </select>

@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import base from "./Api/base";
 import { Dots } from "loading-animations-react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-
+import ConfettiExplosion from "react-confetti-explosion";
 const Senior = () => {
   const [disableForm, setDisableForm] = useState(false);
   const [file, setFile] = useState();
@@ -22,6 +22,13 @@ const Senior = () => {
     payment: "",
     file: "",
   });
+  const bigExplodeProps = {
+    force: 0.6,
+    duration: 5000,
+    particleCount: 100,
+    height: 1200,
+    width: 1600,
+  };
   useEffect(() => {
     const uploadFile = () => {
       const storageRef = ref(storage, `Senior Payment/${data.name}`);
@@ -70,19 +77,30 @@ const Senior = () => {
         email: data.email,
         name: data.name,
         gender: data.gender,
-        phone: data.phone,
+        phone: "+91" + data.phone,
         enrollment: data.enrollment,
         payment: data.payment,
         qrcode: `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
-          data.enrollment * 2 + 9
+          data.enrollment.slice(0, 2) +
+          "I" +
+          data.enrollment.slice(4, 6) +
+          "O" +
+          data.enrollment.slice(6, 8) +
+          "T"
         }`,
         screenshot,
         created: Timestamp.now(),
       });
     } catch (err) {}
-    let { name, email, phone, gender, enrollment, payment } = data;
+    let { name, email, gender, enrollment, payment } = data;
+    let phone = "+91" + data.phone;
     let qr = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
-      enrollment * 2 + 9
+      enrollment.slice(0, 2) +
+      "I" +
+      enrollment.slice(4, 6) +
+      "O" +
+      enrollment.slice(6, 8) +
+      "T"
     }`;
     base("seniors").create(
       {
@@ -151,7 +169,6 @@ const Senior = () => {
                 onChange={inputHandler}
                 type="text"
                 id="fname"
-                autoComplete="off"
                 name="name"
                 value={data.name}
               />
@@ -162,7 +179,6 @@ const Senior = () => {
                 onChange={inputHandler}
                 type="email"
                 id="email"
-                autoComplete="off"
                 name="email"
                 value={data.email}
               />
@@ -174,7 +190,6 @@ const Senior = () => {
                   onChange={inputHandler}
                   type="text"
                   id="enrollment"
-                  autoComplete="off"
                   name="enrollment"
                   value={data.enrollment}
                 />
@@ -185,7 +200,6 @@ const Senior = () => {
                   onChange={inputHandler}
                   type="number"
                   id="pno"
-                  autoComplete="off"
                   name="phone"
                   value={data.phone}
                 />
@@ -268,11 +282,12 @@ const Senior = () => {
         <section
           className={disableForm ? "afterFormSubmitContainer" : "disable"}
         >
+          <ConfettiExplosion {...bigExplodeProps} />
           <p className="afterFormTitle">Lets Go Yeah 🎉</p>
           <p className="afterFormSub">You Are Successfully Registered</p>
           <p className="afterFromDesc">
             Now Get Ready For Making Some Unforgettable And Mesmerizing Moments.
-            Feshers 2K22 By GCET CSE-IOT
+            Freshers 2022 By CSE-IOT
           </p>
         </section>
         <ToastContainer />

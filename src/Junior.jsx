@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import base from "./Api/base";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { Dots } from "loading-animations-react";
+import ConfettiExplosion from "react-confetti-explosion";
 const Junior = () => {
   const [disableForm, setDisableForm] = useState(false);
   const [file, setFile] = useState();
@@ -22,6 +23,13 @@ const Junior = () => {
     file: "",
     transport: "",
   });
+  const bigExplodeProps = {
+    force: 0.6,
+    duration: 5000,
+    particleCount: 100,
+    height: 1200,
+    width: 1600,
+  };
   useEffect(() => {
     const uploadFile = () => {
       const storageRef = ref(storage, `Junior Payment/${data.name}`);
@@ -69,20 +77,31 @@ const Junior = () => {
         email: data.email,
         name: data.name,
         gender: data.gender,
-        phone: data.phone,
+        phone: "+91" + data.phone,
         tempId: data.tempId,
         payment: data.payment,
         qrcode: `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
-          data.phone * 2 + 9
+          data.phone.slice(0, 2) +
+          "i" +
+          data.phone.slice(4, 6) +
+          "o" +
+          data.phone.slice(6, 8) +
+          "t"
         }`,
         screenshot,
         transport: data.transport,
         created: Timestamp.now(),
       });
     } catch (err) {}
-    let { name, email, phone, gender, tempId, payment, transport } = data;
+    let { name, email, gender, tempId, payment, transport } = data;
+    let phone = "+91" + data.phone;
     let qr = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
-      phone * 2 + 9
+      phone.slice(0, 2) +
+      "i" +
+      phone.slice(4, 6) +
+      "o" +
+      phone.slice(6, 8) +
+      "t"
     }`;
     base("juniors").create(
       {
@@ -275,11 +294,12 @@ const Junior = () => {
         <section
           className={disableForm ? "afterFormSubmitContainer" : "disable"}
         >
+          <ConfettiExplosion {...bigExplodeProps} />
           <p className="afterFormTitle">Lets Go Yeah 🎉</p>
           <p className="afterFormSub">You Are Successfully Registered</p>
           <p className="afterFromDesc">
             Now Get Ready For Making Some Unforgettable And Mesmerizing Moments.
-            Feshers 2K22 By GCET CSE-IOT
+            Freshers 2022 By CSE-IOT
           </p>
         </section>
 
