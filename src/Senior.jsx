@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import base from "./Api/base";
 import { Dots } from "loading-animations-react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import ConfettiExplosion from "react-confetti-explosion";
 const Senior = () => {
   const [disableForm, setDisableForm] = useState(false);
   const [file, setFile] = useState();
@@ -22,13 +21,6 @@ const Senior = () => {
     payment: "",
     file: "",
   });
-  const bigExplodeProps = {
-    force: 0.6,
-    duration: 5000,
-    particleCount: 100,
-    height: 1200,
-    width: 1600,
-  };
   useEffect(() => {
     const uploadFile = () => {
       const storageRef = ref(storage, `Senior Payment/${data.name}`);
@@ -170,6 +162,7 @@ const Senior = () => {
                 type="text"
                 id="fname"
                 name="name"
+                autoComplete="off"
                 value={data.name}
               />
             </div>
@@ -180,6 +173,7 @@ const Senior = () => {
                 type="email"
                 id="email"
                 name="email"
+                autoComplete="off"
                 value={data.email}
               />
             </div>
@@ -191,6 +185,7 @@ const Senior = () => {
                   type="text"
                   id="enrollment"
                   name="enrollment"
+                  autoComplete="off"
                   value={data.enrollment}
                 />
               </div>
@@ -201,6 +196,7 @@ const Senior = () => {
                   type="number"
                   id="pno"
                   name="phone"
+                  autoComplete="off"
                   value={data.phone}
                 />
               </div>
@@ -265,11 +261,13 @@ const Senior = () => {
                 onClick={submitFormHandler}
               />
             ) : (
-              <Dots
-                className="uploadData"
-                dotColors={["red", "black", "blue", "orange", "red"]}
-                text="Uploading Data"
-              />
+              <div className="loadingAni">
+                <Dots
+                  className="uploadData"
+                  dotColors={["red", "black", "blue", "orange", "red"]}
+                  text="Uploading Data"
+                />
+              </div>
             )}
             <div className="contactDetails">
               <p>
@@ -282,7 +280,6 @@ const Senior = () => {
         <section
           className={disableForm ? "afterFormSubmitContainer" : "disable"}
         >
-          <ConfettiExplosion {...bigExplodeProps} />
           <p className="afterFormTitle">Lets Go Yeah 🎉</p>
           <p className="afterFormSub">You Are Successfully Registered</p>
           <p className="afterFromDesc">
