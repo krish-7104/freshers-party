@@ -1,146 +1,135 @@
-import React, { useState, useEffect } from "react";
-import { db, storage } from "./firebase";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import base from "./Api/base";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { Dots } from "loading-animations-react";
+import React from "react";
+// import { db, storage } from "./firebase";
+// import { collection, addDoc, Timestamp } from "firebase/firestore";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+// import base from "./Api/base";
+// import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+// import { Dots } from "loading-animations-react";
 const Junior = () => {
-  const [disableForm, setDisableForm] = useState(false);
-  const [file, setFile] = useState();
-  const [screenshot, setpaymentLink] = useState("");
-  const [uploadStatus, setUploadStatus] = useState("");
-  const [uploading, setUploading] = useState(false);
-  const [data, allData] = useState({
-    email: "",
-    name: "",
-    gender: "",
-    phone: "",
-    tempId: "",
-    payment: "",
-    file: "",
-    transport: "",
-  });
-  useEffect(() => {
-    const uploadFile = () => {
-      const storageRef = ref(storage, `Junior Payment/${data.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          progress !== "" && setUploadStatus(progress.toString().slice(0, 4));
-        },
-        (error) => {
-          alert(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setpaymentLink(downloadURL);
-          });
-          setUploadStatus("");
-        }
-      );
-    };
-    file && uploadFile();
-  }, [data.name, file]);
+  // const [disableForm, setDisableForm] = useState(false);
+  // const [file, setFile] = useState();
+  // const [screenshot, setpaymentLink] = useState("");
+  // const [uploadStatus, setUploadStatus] = useState("");
+  // const [uploading, setUploading] = useState(false);
+  // const [data, allData] = useState({
+  //   email: "",
+  //   name: "",
+  //   gender: "",
+  //   phone: "",
+  //   tempId: "",
+  //   payment: "",
+  //   file: "",
+  // });
+  // useEffect(() => {
+  //   const uploadFile = () => {
+  //     const storageRef = ref(storage, `Junior Payment/${data.name}`);
+  //     const uploadTask = uploadBytesResumable(storageRef, file);
+  //     uploadTask.on(
+  //       "state_changed",
+  //       (snapshot) => {
+  //         const progress =
+  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //         progress !== "" && setUploadStatus(progress.toString().slice(0, 4));
+  //       },
+  //       (error) => {
+  //         alert(error);
+  //       },
+  //       () => {
+  //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+  //           setpaymentLink(downloadURL);
+  //         });
+  //         setUploadStatus("");
+  //       }
+  //     );
+  //   };
+  //   file && uploadFile();
+  // }, [data.name, file]);
 
-  const submitFormHandler = async (e) => {
-    e.preventDefault();
-    if (
-      data.email !== "" &&
-      data.name !== "" &&
-      data.phone !== "" &&
-      data.tempId !== "" &&
-      data.gender !== "" &&
-      data.payment !== ""
-    ) {
-      setUploading(true);
-      AddDataToServer();
-    } else {
-      alert("Fill All Details");
-    }
-  };
-  const AddDataToServer = async () => {
-    try {
-      await addDoc(collection(db, "registered_juniors"), {
-        email: data.email,
-        name: data.name,
-        gender: data.gender,
-        phone: "+91" + data.phone,
-        tempId: data.tempId,
-        payment: data.payment,
-        qrcode: `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
-          data.phone.slice(0, 2) +
-          "i" +
-          data.phone.slice(4, 6) +
-          "o" +
-          data.phone.slice(6, 8) +
-          "t"
-        }`,
-        screenshot,
-        transport: data.transport,
-        created: Timestamp.now(),
-      });
-    } catch (err) {}
-    let { name, email, gender, tempId, payment, transport } = data;
-    let phone = "+91" + data.phone;
-    let qr = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
-      phone.slice(0, 2) +
-      "i" +
-      phone.slice(4, 6) +
-      "o" +
-      phone.slice(6, 8) +
-      "t"
-    }`;
-    base("juniors").create(
-      {
-        name,
-        email,
-        phone,
-        gender,
-        tempId,
-        payment,
-        transport,
-        qr,
-        screenshot,
-      },
-      function (err, record) {
-        if (err) {
-          toast.error("Something Went Wrong", {
-            position: "bottom-right",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-        } else {
-          setUploading(false);
-          setDisableForm(true);
-          toast.success("Registered Successfully", {
-            position: "bottom-right",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-        }
-      }
-    );
-  };
-  const inputHandler = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    allData({ ...data, [name]: value });
-  };
+  // const submitFormHandler = async (e) => {
+  //   e.preventDefault();
+  //   if (
+  //     data.email !== "" &&
+  //     data.name !== "" &&
+  //     data.phone !== "" &&
+  //     data.tempId !== "" &&
+  //     data.gender !== "" &&
+  //     data.payment !== ""
+  //   ) {
+  //     setUploading(true);
+  //     AddDataToServer();
+  //   } else {
+  //     toast.warn("Fill All Details!", {
+  //       position: "bottom-right",
+  //       autoClose: 4000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "dark",
+  //     });
+  //   }
+  // };
+  // const AddDataToServer = async () => {
+  //   try {
+  //     await addDoc(collection(db, "registered_juniors"), {
+  //       email: data.email,
+  //       name: data.name,
+  //       gender: data.gender,
+  //       phone: "+91" + data.phone,
+  //       tempId: data.tempId,
+  //       payment: data.payment,
+  //       screenshot,
+  //       created: Timestamp.now(),
+  //     });
+  //   } catch (err) {}
+  //   let { name, email, gender, tempId, payment } = data;
+  //   let phone = "+91" + data.phone;
+  //   base("juniors").create(
+  //     {
+  //       name,
+  //       email,
+  //       phone,
+  //       gender,
+  //       tempId,
+  //       payment,
+  //       screenshot,
+  //     },
+  //     function (err, record) {
+  //       if (err) {
+  //         toast.error("Something Went Wrong", {
+  //           position: "bottom-right",
+  //           autoClose: 4000,
+  //           hideProgressBar: false,
+  //           closeOnClick: true,
+  //           pauseOnHover: true,
+  //           draggable: true,
+  //           progress: undefined,
+  //           theme: "dark",
+  //         });
+  //       } else {
+  //         setUploading(false);
+  //         setDisableForm(true);
+  //         toast.success("Registered Successfully", {
+  //           position: "bottom-right",
+  //           autoClose: 4000,
+  //           hideProgressBar: false,
+  //           closeOnClick: true,
+  //           pauseOnHover: true,
+  //           draggable: true,
+  //           progress: undefined,
+  //           theme: "dark",
+  //         });
+  //       }
+  //     }
+  //   );
+  // };
+  // const inputHandler = (e) => {
+  //   const name = e.target.name;
+  //   const value = e.target.value;
+  //   allData({ ...data, [name]: value });
+  // };
   return (
     <>
       <section className="mainContainer">
@@ -155,7 +144,7 @@ const Junior = () => {
           <p className="title">Reverie'22 Form 🎉</p>
           <p className="subTitle">IOT Junior</p>
         </section>
-        <section className={disableForm ? "disable" : "mainFormArea"}>
+        {/* <section className={disableForm ? "disable" : "mainFormArea"}>
           <form className="mainForm">
             <div className="verticleWrap">
               <div className="inputWrapper">
@@ -166,7 +155,6 @@ const Junior = () => {
                   id="fname"
                   name="name"
                   value={data.name}
-                  autoComplete="off"
                 />
               </div>
               <div className="inputWrapper">
@@ -177,7 +165,6 @@ const Junior = () => {
                   id="tempId"
                   name="tempId"
                   value={data.tempId}
-                  autoComplete="off"
                 />
               </div>
             </div>
@@ -189,7 +176,6 @@ const Junior = () => {
                 id="email"
                 name="email"
                 value={data.email}
-                autoComplete="off"
               />
             </div>
             <div className="verticleWrap">
@@ -201,7 +187,6 @@ const Junior = () => {
                   id="pno"
                   name="phone"
                   value={data.phone}
-                  autoComplete="off"
                 />
               </div>
               <div className="inputWrapper">
@@ -213,36 +198,21 @@ const Junior = () => {
                 </select>
               </div>
             </div>
-            <div className="verticleWrap">
-              <div className="inputWrapper">
-                <label htmlFor="transport">Need Transport?</label>
-                <select name="transport" id="transport" onChange={inputHandler}>
-                  <option value="">-- Select --</option>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
-              </div>
-              <div className="inputWrapper">
-                <label htmlFor="payment">Mode Of Payment</label>
-                <select name="payment" id="payment" onChange={inputHandler}>
-                  <option value="">-- Select --</option>
-                  <option value="Online">Online</option>
-                  <option value="Offline">Offline</option>
-                </select>
-              </div>
+            <div className="inputWrapper">
+              <label htmlFor="payment">Mode Of Payment</label>
+              <select name="payment" id="payment" onChange={inputHandler}>
+                <option value="">-- Select --</option>
+                <option value="Online">Online</option>
+                <option value="Offline">Offline</option>
+              </select>
             </div>
             <div
               className={data.payment === "Online" ? "paymentSec" : "disable"}
             >
-              <img
-                src="https://firebasestorage.googleapis.com/v0/b/freshers-krish.appspot.com/o/Qr%20Code%2Fjunior.jpg?alt=media&token=ca90e67c-e40e-481d-917f-c30c99e2577a"
-                alt=""
-              />
               <div className="uploadScreenshotArea">
                 <p className="qrCodetext">
-                  <b>Note: </b>After paying online, don't forget to take a
-                  screenshot of the payment success page and upload it if you
-                  face any problems contact on below given.
+                  <b>Note: </b>Upload the Screenshot of the payment done page
+                  here. If you face any problem then contact us.
                 </p>
                 {screenshot !== "" ? (
                   <label className="uploadFIle success" disable>
@@ -300,7 +270,8 @@ const Junior = () => {
           </p>
         </section>
 
-        <ToastContainer />
+        <ToastContainer /> */}
+        <section className="formClosed">FORM CLOSED!</section>
       </section>
     </>
   );

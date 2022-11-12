@@ -1,144 +1,136 @@
-import React, { useState, useEffect } from "react";
-import { db, storage } from "./firebase";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import base from "./Api/base";
-import { Dots } from "loading-animations-react";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import React from "react";
+import "./Styles/App.css";
+// import { db, storage } from "./firebase";
+// import { collection, addDoc, Timestamp } from "firebase/firestore";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+// import base from "./Api/base";
+// import { Dots } from "loading-animations-react";
+// import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 const Senior = () => {
-  const [disableForm, setDisableForm] = useState(false);
-  const [file, setFile] = useState();
-  const [screenshot, setpaymentLink] = useState("");
-  const [uploading, setUploading] = useState(false);
-  const [uploadStatus, setUploadStatus] = useState("");
-  const [data, allData] = useState({
-    email: "",
-    name: "",
-    gender: "",
-    phone: "",
-    enrollment: "",
-    payment: "",
-    file: "",
-  });
-  useEffect(() => {
-    const uploadFile = () => {
-      const storageRef = ref(storage, `Senior Payment/${data.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          progress !== "" && setUploadStatus(progress.toString().slice(0, 4));
-        },
-        (error) => {
-          alert(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setpaymentLink(downloadURL);
-          });
-          setUploadStatus("");
-        }
-      );
-    };
-    file && uploadFile();
-  }, [data.name, file]);
+  // const [disableForm, setDisableForm] = useState(false);
+  // const [file, setFile] = useState();
+  // const [screenshot, setpaymentLink] = useState("");
+  // const [uploading, setUploading] = useState(false);
+  // const [uploadStatus, setUploadStatus] = useState("");
+  // const [data, allData] = useState({
+  //   email: "",
+  //   name: "",
+  //   gender: "",
+  //   phone: "",
+  //   enrollment: "",
+  //   payment: "",
+  //   file: "",
+  // });
+  // useEffect(() => {
+  //   const uploadFile = () => {
+  //     const storageRef = ref(storage, `Senior Payment/${data.name}`);
+  //     const uploadTask = uploadBytesResumable(storageRef, file);
+  //     uploadTask.on(
+  //       "state_changed",
+  //       (snapshot) => {
+  //         const progress =
+  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //         progress !== "" && setUploadStatus(progress.toString().slice(0, 4));
+  //       },
+  //       (error) => {
+  //         alert(error);
+  //       },
+  //       () => {
+  //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+  //           setpaymentLink(downloadURL);
+  //         });
+  //         setUploadStatus("");
+  //       }
+  //     );
+  //   };
+  //   file && uploadFile();
+  // }, [data.name, file]);
 
-  const submitFormHandler = async (e) => {
-    e.preventDefault();
-
-    if (
-      data.email !== "" &&
-      data.name !== "" &&
-      data.phone !== "" &&
-      data.enrollment !== "" &&
-      data.gender !== "" &&
-      data.payment !== ""
-    ) {
-      setUploading(true);
-      AddDataToServer();
-    } else {
-      alert("Fill All Details");
-    }
-  };
-  const AddDataToServer = async () => {
-    try {
-      await addDoc(collection(db, "registered_seniors"), {
-        email: data.email,
-        name: data.name,
-        gender: data.gender,
-        phone: "+91" + data.phone,
-        enrollment: data.enrollment,
-        payment: data.payment,
-        qrcode: `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
-          data.enrollment.slice(0, 2) +
-          "I" +
-          data.enrollment.slice(4, 6) +
-          "O" +
-          data.enrollment.slice(6, 8) +
-          "T"
-        }`,
-        screenshot,
-        created: Timestamp.now(),
-      });
-    } catch (err) {}
-    let { name, email, gender, enrollment, payment } = data;
-    let phone = "+91" + data.phone;
-    let qr = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${
-      enrollment.slice(0, 2) +
-      "I" +
-      enrollment.slice(4, 6) +
-      "O" +
-      enrollment.slice(6, 8) +
-      "T"
-    }`;
-    base("seniors").create(
-      {
-        name,
-        email,
-        phone,
-        gender,
-        enrollment,
-        payment,
-        qr,
-        screenshot,
-      },
-      function (err, record) {
-        if (err) {
-          toast.error("Something Went Wrong", {
-            position: "bottom-right",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-        } else {
-          setDisableForm(true);
-          setUploading(false);
-          toast.success("Registered Successfully", {
-            position: "bottom-right",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-        }
-      }
-    );
-  };
-  const inputHandler = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    allData({ ...data, [name]: value });
-  };
+  // const submitFormHandler = async (e) => {
+  //   e.preventDefault();
+  //   if (
+  //     data.email !== "" &&
+  //     data.name !== "" &&
+  //     data.phone !== "" &&
+  //     data.enrollment !== "" &&
+  //     data.gender !== "" &&
+  //     data.payment !== ""
+  //   ) {
+  //     setUploading(true);
+  //     AddDataToServer();
+  //   } else {
+  //     toast.warn("Fill All Details!", {
+  //       position: "bottom-right",
+  //       autoClose: 4000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "dark",
+  //     });
+  //   }
+  // };
+  // const AddDataToServer = async () => {
+  //   try {
+  //     await addDoc(collection(db, "registered_seniors"), {
+  //       email: data.email,
+  //       name: data.name,
+  //       gender: data.gender,
+  //       phone: "+91" + data.phone,
+  //       enrollment: data.enrollment,
+  //       payment: data.payment,
+  //       screenshot,
+  //       created: Timestamp.now(),
+  //     });
+  //   } catch (err) {}
+  //   let { name, email, gender, enrollment, payment } = data;
+  //   let phone = "+91" + data.phone;
+  //   base("seniors").create(
+  //     {
+  //       name,
+  //       email,
+  //       phone,
+  //       gender,
+  //       enrollment,
+  //       payment,
+  //       screenshot,
+  //     },
+  //     function (err, record) {
+  //       if (err) {
+  //         toast.error("Something Went Wrong", {
+  //           position: "bottom-right",
+  //           autoClose: 4000,
+  //           hideProgressBar: false,
+  //           closeOnClick: true,
+  //           pauseOnHover: true,
+  //           draggable: true,
+  //           progress: undefined,
+  //           theme: "dark",
+  //         });
+  //       } else {
+  //         setDisableForm(true);
+  //         setUploading(false);
+  //         toast.success("Registered Successfully", {
+  //           position: "bottom-right",
+  //           autoClose: 4000,
+  //           hideProgressBar: false,
+  //           closeOnClick: true,
+  //           pauseOnHover: true,
+  //           draggable: true,
+  //           progress: undefined,
+  //           theme: "dark",
+  //         });
+  //       }
+  //     }
+  //   );
+  // };
+  // const inputHandler = (e) => {
+  //   const name = e.target.name;
+  //   const value = e.target.value;
+  //   allData({ ...data, [name]: value });
+  // };
   return (
     <>
       <section className="mainContainer">
@@ -153,7 +145,8 @@ const Senior = () => {
           <p className="title">Reverie'22 Form 🎉</p>
           <p className="subTitle">IOT Senior</p>
         </section>
-        <section className={disableForm ? "disable" : "mainFormArea"}>
+        <section className="formClosed">FORM CLOSED!</section>
+        {/* <section className={disableForm ? "disable" : "mainFormArea"}>
           <form className="mainForm">
             <div className="inputWrapper">
               <label htmlFor="fname">Full Name</label>
@@ -162,7 +155,6 @@ const Senior = () => {
                 type="text"
                 id="fname"
                 name="name"
-                autoComplete="off"
                 value={data.name}
               />
             </div>
@@ -173,7 +165,6 @@ const Senior = () => {
                 type="email"
                 id="email"
                 name="email"
-                autoComplete="off"
                 value={data.email}
               />
             </div>
@@ -185,7 +176,6 @@ const Senior = () => {
                   type="text"
                   id="enrollment"
                   name="enrollment"
-                  autoComplete="off"
                   value={data.enrollment}
                 />
               </div>
@@ -196,7 +186,6 @@ const Senior = () => {
                   type="number"
                   id="pno"
                   name="phone"
-                  autoComplete="off"
                   value={data.phone}
                 />
               </div>
@@ -222,15 +211,10 @@ const Senior = () => {
             <div
               className={data.payment === "Online" ? "paymentSec" : "disable"}
             >
-              <img
-                src="https://firebasestorage.googleapis.com/v0/b/freshers-krish.appspot.com/o/Qr%20Code%2Fsenior.jpg?alt=media&token=7f73a94b-a1ef-413e-83f8-4838a498c4b4"
-                alt=""
-              />
               <div className="uploadScreenshotArea">
                 <p className="qrCodetext">
-                  <b>Note: </b>After paying online, don't forget to take a
-                  screenshot of the payment success page and upload it if you
-                  face any problems contact on below given.
+                  <b>Note: </b>Upload the Screenshot of the payment done page
+                  here. If you face any problem then contact us.
                 </p>
                 {screenshot !== "" ? (
                   <label className="uploadFIle success" disable>
@@ -287,7 +271,7 @@ const Senior = () => {
             Freshers 2022 By CSE-IOT
           </p>
         </section>
-        <ToastContainer />
+        <ToastContainer /> */}
       </section>
     </>
   );

@@ -1,60 +1,18 @@
-.mainAdmin {
-  min-height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+body {
+  margin: 0;
+  padding: 0;
 }
-.checkPass {
-  margin: 20px 0px;
-  display: flex;
-  width: 50%;
-  justify-content: space-evenly;
-  align-items: center;
-}
-.password {
-  padding: 8px;
-  font-size: 16px;
-  outline: none;
-}
-.checkPassBtn {
-  background-color: black;
-  color: whitesmoke;
-  padding: 8px 20px;
-  font-weight: 600;
-  font-size: 16px;
-  width: 20%;
-  border-radius: 4px;
-}
-#typeOfData {
-  width: 20%;
-}
-.tableArea {
-  margin: 30px;
-}
-.tableAreaMobile {
-  display: none;
-}
-@media only screen and (max-width: 900px) {
-  .checkPass {
-    width: 100%;
-    flex-direction: column;
-  }
-  .tableAreaMobile {
-    display: flex;
-  }
-  .tableArea {
-    display: none;
-  }
-  .password {
-    width: 80%;
-  }
-  #typeOfData {
-    width: 80%;
-    margin-top: 8px;
-  }
-  .checkPassBtn {
-    width: 80%;
-    margin-top: 8px;
-  }
+.airtable-embed {
+  background: transparent;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
 }
